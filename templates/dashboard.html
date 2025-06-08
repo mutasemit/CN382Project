@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}لوحة المهام{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>مهامي الدراسية</h2>
+    <a href="{{ url_for('add_task') }}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> إضافة مهمة جديدة
+    </a>
+</div>
+
+<div class="row" id="tasks-container">
+    {% if tasks %}  
+        {% for task in tasks %}
+            <div class="col-md-4 mb-4 task-card" data-task-id="{{ task.id }}">
+                <div class="card h-100 
+                    {% if task.status == 'مكتمل' %}border-success{% elif task.status == 'متأخر' %}border-danger{% else %}border-warning{% endif %}">
+                    <div class="card-header d-flex justify-content-between align-items-center
+                        {% if task.status == 'مكتمل' %}bg-success text-white{% elif task.status == 'متأخر' %}bg-danger text-white{% else %}bg-warning{% endif %}">
+                        <h5 class="mb-0">{{ task.title }}</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-gear"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ url_for('edit_task', task_id=task.id) }}">تعديل</a></li>
+                                <li><a class="dropdown-item delete-task" href="#" data-task-id="{{ task.id }}">حذف</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ task.description }}</p>
+                        <p class="card-text"><strong>تاريخ التسليم:</strong> {{ task.due_date.strftime('%Y-%m-%d') }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span><strong>الحالة:</strong> <span class="status-text">{{ task.status }}</span></span>
+                            <div class="btn-group status-buttons">
+                                <button class="btn btn-sm btn-outline-warning status-btn {% if task.status == 'جاري' %}active{% endif %}" 
+                                        data-status="جاري" data-task-id="{{ task.id }}">جاري</button>
+                                <button class="btn btn-sm btn-outline-success status-btn {% if task.status == 'مكتمل' %}active{% endif %}" 
+                                        data-status="مكتمل" data-task-id="{{ task.id }}">مكتمل</button>
+                                <button class="btn btn-sm btn-outline-danger status-btn {% if task.status == 'متأخر' %}active{% endif %}" 
+                                        data-status="متأخر" data-task-id="{{ task.id }}">متأخر</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                لا توجد مهام حالياً. قم بإضافة مهمة جديدة للبدء!
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // تحديث حالة المهمة
+    $('.status-btn').click(function() {
+        const taskId = $(this).data('task-id');
+        const newStatus = $(this).data('status');
+        const card = $(this).closest('.task-card');
+        
+        $.ajax({
+            url: `/task/update_status/${taskId}`,
+            method: 'POST',
+            data: { status: newStatus },
+            success: function(response) {
+                if (response.success) {
+                    // تحديث النص
+                    card.find('.status-text').text(newStatus);
+                    
+                    // تحديث الأزرار
+                    card.find('.status-btn').removeClass('active');
+                    card.find(`.status-btn[data-status="${newStatus}"]`).addClass('active');
+                    
+                    // تحديث لون البطاقة
+                    const cardElement = card.find('.card');
+                    cardElement.removeClass('border-success border-warning border-danger');
+                    
+                    const cardHeader = card.find('.card-header');
+                    cardHeader.removeClass('bg-success bg-warning bg-danger text-white');
+                    
+                    if (newStatus === 'مكتمل') {
+                        cardElement.addClass('border-success');
+                        cardHeader.addClass('bg-success text-white');
+                    } else if (newStatus === 'متأخر') {
+                        cardElement.addClass('border-danger');
+                        cardHeader.addClass('bg-danger text-white');
+                    } else {
+                        cardElement.addClass('border-warning');
+                        cardHeader.addClass('bg-warning');
+                    }
+                }
+            }
+        });
+    });
+    
+    // حذف المهمة
+    $('.delete-task').click(function() {
+        const taskId = $(this).data('task-id');
+        const card = $(this).closest('.task-card');
+        
+        $.ajax({
+            url: `/task/delete/${taskId}`,
+            method: 'POST',
+            success: function(response) {
+                if (response.success) {
+                    card.remove();
+                }
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

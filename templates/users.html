@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}المستخدمين{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>المستخدمين</h2>
+        </div>
+        {% if session.username == 'admin' %}
+        <div class="col-auto">
+            <a href="{{ url_for('add_user') }}" class="btn btn-success">
+                <i class="bi bi-person-plus"></i> إضافة مستخدم جديد
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">قائمة المستخدمين</h5>
+        </div>
+        <div class="card-body">
+            {% if users %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>اسم المستخدم</th>
+                            <th>عدد المهام</th>
+                            {% if session.username == 'admin' %}
+                            <th>الإجراءات</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.tasks.count() }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                لا يوجد مستخدمين في النظام حاليًا.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

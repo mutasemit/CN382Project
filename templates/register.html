@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}تسجيل مستخدم جديد{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center  text-center" style="min-height: 80vh;">
+    <div class="col-md-3 ">
+        <form method="post">
+            <h1 class="h3 mb-4 fw-normal">الرجاء تسجيل </h1>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="username" name="username" placeholder="اسم المستخدم">
+                <label for="floatingInput">اسم المستخدم</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" name="password" placeholder="كلمة المرور">
+                <label for="floatingPassword">كلمة المرور</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="تأكيد كلمة المرور">
+                <label for="confirm_password">تأكيد كلمة المرور</label>
+            </div>
+            <div class="d-grid ">
+               <button class="btn btn-primary w-100 py-2" type="submit">تسجيل </button>
+            </div>
+        </form>
+        <div class="mt-3 text-center">
+            <p>لديك حساب بالفعل؟ <a href="{{ url_for('login') }}">تسجيل الدخول</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

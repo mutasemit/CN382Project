@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}الصفحة الرئيسية{% endblock %}
+
+{% block content %}
+<!-- قسم الترحيب -->
+<div class="row align-items-center justify-content-center g-lg-5 py-5" style="min-height: 80vh;">
+    <div class="col-lg-6 p-3 p-lg-5 pt-lg-3">
+        <h1 class="display-5 mb-4 fw-bolder text-primary">مرحباً بك في مهام Google</h1>
+        <p class="fs-5 text-body-secondary">
+            مهام Google هي خدمة مجانية من Google تتيح للمستخدم إنشاء مهام، تنظيمها، تحديد مواعيد نهائية لها، وربطها
+            بتقويم Google. تساعد في تتبع المهام اليومية بسهولة من الهاتف أو الكمبيوتر، وتتكامل مع Gmail وGoogle Calendar
+            لتوفير تجربة تنظيم متكاملة وبسيطة.
+        </p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-lg-3 mt-4">
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">تسجيل الدخول</a>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-secondary btn-lg px-4">تسجيل جديد</a>
+        </div>
+    </div>
+    <div class="col-lg-6 p-0 overflow-hidden">
+        <img class="img-fluid rounded-3" src="{{ url_for('static', filename='images/8690687_3969308.svg') }}" alt="صورة توضيحية للمهام"
+            style="width: 100%; height: auto; object-fit: cover;">
+    </div> 
+</div>
+
+<!-- قسم المزايا -->
+<div class="container px-4 py-5" id="custom-cards">
+    <h2 class="fw-bolder fs-1 text-center mb-4">مزايا مهام Google</h2>
+    <hr class="mb-5">
+
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-3">
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-color:#407BFF !important;">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">سهولة في الاستخدام، بسيط</h3>
+                    <ul class="d-flex list-unstyled mt-auto">
+                        <li class="me-auto"> 
+                            <img src="{{ url_for('static', filename='images/download.png') }}" alt="Bootstrap" width="32"
+                                height="32" class="rounded-circle border border-white"> 
+                        </li>
+                        <li class="d-flex align-items-center me-3"> 
+                            <svg class="bi me-2" width="1em" height="1em" role="img" aria-label="Location">
+                                <use xlink:href="#geo-fill"></use>
+                            </svg> 
+                            <small>سهل</small> 
+                        </li>
+                        <li class="d-flex align-items-center"> 
+                            <svg class="bi me-2" width="1em" height="1em" role="img" aria-label="Duration">
+                                <use xlink:href="#calendar3"></use>
+                            </svg> 
+                            <small>Easy to use</small> 
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-color: #ea4335 !important;">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">إمكانية إضافة ملاحظات </h3>
+                    <ul class="d-flex list-unstyled mt-auto">
+                        <li class="me-auto"> 
+                            <img src="{{ url_for('static', filename='images/download.png') }}" width="32"height="32" class="rounded-circle border border-white"> </li>
+                        <li class="d-flex align-items-center me-3"> <svg class="bi me-2" width="1em" height="1em"
+                                role="img" aria-label="Location">
+                                <use xlink:href="#geo-fill"></use>
+                            </svg> <small>تفاصيل</small> </li>
+                        <li class="d-flex align-items-center"> <svg class="bi me-2" width="1em" height="1em"
+                                role="img" aria-label="Duration">
+                                <use xlink:href="#calendar3"></use>
+                            </svg> <small>Details</small> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-color: #34A853 !important;">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">مجاني تمامًا , لا يحتاج لاشتراك</h3>
+                    <ul class="d-flex list-unstyled mt-auto">
+                        <li class="me-auto"> <img src="{{ url_for('static', filename='images/download.png') }}" alt="Bootstrap" width="32"
+                                height="32" class="rounded-circle border border-white"> </li>
+                        <li class="d-flex align-items-center me-3"> <svg class="bi me-2" width="1em" height="1em"
+                                role="img" aria-label="Location">
+                                <use xlink:href="#geo-fill"></use>
+                            </svg> <small>مجاني</small> </li>
+                        <li class="d-flex align-items-center"> <svg class="bi me-2" width="1em" height="1em"
+                                role="img" aria-label="Duration">
+                                <use xlink:href="#calendar3"></use>
+                            </svg> <small>free</small> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
